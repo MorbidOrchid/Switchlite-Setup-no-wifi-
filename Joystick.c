@@ -21,6 +21,8 @@ these buttons for our use.
 #include "Joystick.h"
 
 typedef enum {
+
+
 	UP,
 	DOWN,
 	LEFT,
@@ -31,9 +33,14 @@ typedef enum {
 	B,
 	L,
 	R,
+	ZL,
+	ZR,
 	THROW,
 	NOTHING,
-	TRIGGERS
+	TRIGGERS,
+	PLUS,
+	MINUS,
+	HOME
 } Buttons_t;
 
 typedef struct {
@@ -43,147 +50,149 @@ typedef struct {
 
 static const command step[] = {
 	// Setup controller
-	{ NOTHING,  250 },
-	{ TRIGGERS,   5 },
-	{ NOTHING,  150 },
-	{ TRIGGERS,   5 },
-	{ NOTHING,  150 },
-	{ A,          5 },
-	{ NOTHING,  250 },
 
-	// Talk to Pondo
-	{ A,          5 }, // Start
-	{ NOTHING,   30 },
-	{ B,          5 }, // Quick output of text
-	{ NOTHING,   20 }, // Halloo, kiddums!
-	{ A,          5 }, // <- I'll try it!
-	{ NOTHING,   15 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ A,          5 }, // <- OK!
-	{ NOTHING,   15 },
-	{ B,          5 },
-	{ NOTHING,   20 }, // Aha! Play bells are ringing! I gotta set up the pins, but I'll be back in a flurry
-	{ A,          5 }, // <Continue>
-	{ NOTHING,  325 }, // Cut to different scene (Knock 'em flat!)
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ A,          5 }, // <Continue> // Camera transition takes place after this
-	{ NOTHING,   50 },
-	{ B,          5 },
-	{ NOTHING,   20 }, // If you can knock over all 10 pins in one roll, that's a strike
-	{ A,          5 }, // <Continue>
-	{ NOTHING,   15 },
-	{ B,          5 },
-	{ NOTHING,   20 }, // A spare is...
-	{ A,          5 }, // <Continue>
-	{ NOTHING,  100 }, // Well, good luck
-	{ A,          5 }, // <Continue>
-	{ NOTHING,  150 }, // Pondo walks away
+	{},
 
-	// Pick up Snowball (Or alternatively, run to bail in case of a non-strike)
-	{ A,          5 },
-	{ NOTHING,   50 },
-	{ LEFT,      42 },
-	{ UP,        80 },
-	{ THROW,     25 },
+	/*
+NOTE:
+Use the below line using terminal from the same directory the joystick.c file is, adapting the COM port to be whatever COM has been assigned to the itsybitsy 32u4. Press the reset button on the itsybitsy 2 times, and then submit the terminal command.
 
-	// Non-strike alternative flow, cancel bail and rethrow
-	{ NOTHING,   30 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 }, // I have to split dialogue (It's nothing)
-	{ NOTHING,   15 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,  450 },
-	{ B,          5 }, // Snowly moly... there are rules!
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 }, // Second dialogue
-	{ NOTHING,   20 },
-	{ DOWN,      10 }, // Return to snowball
-	{ NOTHING,   20 },
-	{ A,          5 }, // Pick up snowball, we just aimlessly throw it
-	{ NOTHING,   50 },
-	{ UP,        10 },
-	{ THROW,     25 },
+C:\Users\<username>\AppData\Local\Arduino15\packages\arduino\tools\avrdude\6.3.0-arduino17/bin/avrdude "-CC:\Users\Jesse\AppData\Local\Arduino15\packages\arduino\tools\avrdude\6.3.0-arduino17/etc/avrdude.conf" -v -patmega32u4 -cavr109 -PCOM7 -b57600 -D "-Uflash:w:C:\Users\Jesse\GIT\Switch_Setup\Joystick.hex:i"
 
-	// Back at main flow
-	{ NOTHING,  175 }, // Ater throw wait
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 }, // To the rewards
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	
-	{ B,          5 }, // Wait for 450 cycles by bashing B (Like real players do!)
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 },
-	{ B,          5 },
-	{ NOTHING,   20 } // Saving, intermission
+Below this line is the input list! Whatever is in this list is input into the console when the itsybitsy32u4 is connected.
+	*/
+
+	{ A,            5}, // To have switch recognize controller
+	{ NOTHING,     20}, // Input Delay
+	{ A,            5}, // Select English
+	{ NOTHING,     20}, // Input Delay
+	{ UP,           5}, // Bring Cursor to list
+	{ NOTHING,     20}, // Input Delay
+	{ A,            5}, // Select The Americas
+	{ NOTHING,     20}, // Screen Transition Delay
+	{ DOWN,         5},
+	{ NOTHING,     20}, // Input Delay
+	{ A,            5}, // Select Accept EULA
+	{ NOTHING,     20}, // Input Delay
+	{ DOWN,         5},
+	{ NOTHING,     20}, // Input Delay
+	{ A,            5}, // Next
+	{ NOTHING,    550}, // Searching for networks Delay
+	{ A,            5}, // Select Wired Connection
+	{ NOTHING,     20}, // Screen Transition Delay
+	{ A,            5}, // Select Connect to the internet...
+	{ NOTHING,    500}, // Connecting to internet delay
+	{ A,            5}, // Select OK
+	{ NOTHING,     50}, // Screen Transition Delay
+	{ A,            5}, // Select Time Zone
+	{ NOTHING,    100}, // Screen Transition Delay
+	{ A,            5}, // Next
+	{ NOTHING,     50}, // Screen Transition Delay
+	{ A,            5}, // Select Create User
+	{ NOTHING,     50}, // Screen Transition Delay
+	{ A,            5}, // Select User Icon
+	{ NOTHING,     50}, // Screen Transition Delay
+	{ A,            5}, // Select User Name "1"
+	{ NOTHING,     20}, // Input Delay
+	{ PLUS,        10}, // Save User Name
+	{ NOTHING,     20}, // Input Delay
+	{ NOTHING,     70}, // Screen Transition Delay
+	{ A,            5}, // Select OK
+	{ NOTHING,     20}, // Input Delay
+	{ NOTHING,     50}, // Screen Transition Delay
+	{ DOWN,         5}, // Link Account!
+	{ NOTHING,     20}, // Input Delay
+	{ A,            5}, // Select Later 
+	{ NOTHING,     20}, // Input Delay
+	{ NOTHING,     50}, // Screen Transition Delay
+	{ A,            5}, // Select Skip 
+	{ NOTHING,     20}, // Input Delay
+	{ NOTHING,     50}, // Screen Transition Delay
+	{ A,            5}, // Select Next 
+	{ NOTHING,     20}, // Input Delay
+	{ NOTHING,     50}, // Screen Transition Delay
+	{ DOWN,         5}, // Parental Controls
+	{ NOTHING,     20}, // Input Delay
+	{ A,            5}, // Select Skip
+	{ NOTHING,     20}, // Input Delay
+	{ NOTHING,     50}, // Screen Transition Delay
+	{ HOME,         5}, // Go Home
+	{ NOTHING,    300}, // Home Transition Delay
+
+	{ DOWN,         5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ DOWN,         5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ RIGHT,        5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ RIGHT,        5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ RIGHT,        5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ RIGHT,        5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ RIGHT,        5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ RIGHT,        5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ RIGHT,        5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ RIGHT,        5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ LEFT,         5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ A,            5}, // Select Settings
+	{ NOTHING,     50}, // Screen Transition Delay
+	{ DOWN,         5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ DOWN,         5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ DOWN,         5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ DOWN,         5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ DOWN,         5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ DOWN,         5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ DOWN,         5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ DOWN,         5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ DOWN,         5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ DOWN,         5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ DOWN,         5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ DOWN,         5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ DOWN,         5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ DOWN,         5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ DOWN,         5}, 
+	{ NOTHING,     20}, // Input Delay
+	{ A,            5},
+	{ NOTHING,     20}, // Input Delay
+	{ A,            5},
+	{ NOTHING,    200}, // Internet Connect Delay
+	{ A,            5}, // Update
+	{ NOTHING,     20}, // Input Delay
+	{ A,            5}, // OK
+	{ NOTHING,   1000}, // End
+
+
+//	Copy/Paste Commands
+//	{ NOTHING,     20}, // Input Delay
+//	{ NOTHING,     50}, // Screen Transition Delay
+//	{ A,            5},
+//	{ PLUS,         5}, 
+//	{ DOWN,         5}, 
+//	{ RIGHT,        5}, 
+
+
+
 };
 
 // Main entry point.
@@ -422,13 +431,37 @@ void GetNextReport(USB_JoystickReport_Input_t* const ReportData) {
 					ReportData->Button |= SWITCH_R;
 					break;
 
+				case L:
+					ReportData->Button |= SWITCH_L;
+					break;
+
 				case THROW:
 					ReportData->LY = STICK_MIN;				
 					ReportData->Button |= SWITCH_R;
 					break;
 
+				case ZL:
+					ReportData->Button |= SWITCH_ZL;
+					break;
+
+				case ZR:
+					ReportData->Button |= SWITCH_ZR;
+					break;
+
 				case TRIGGERS:
 					ReportData->Button |= SWITCH_L | SWITCH_R;
+					break;
+
+	                	case HOME:
+      	      	        ReportData->Button |= SWITCH_HOME;
+            	      	  break;
+
+				case PLUS:
+					ReportData->Button |= SWITCH_PLUS;
+					break;
+
+				case MINUS:
+					ReportData->Button |= SWITCH_MINUS;
 					break;
 
 				default:
