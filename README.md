@@ -1,4 +1,11 @@
-## snowball thrower
+## Switch lite (no-wifi) initialization
+
+Im keeping the text below as a reference point only. This has been modified from the snowball-thrower it once was. 
+
+This has been modified to allow programmable switch inputs, expanded the buttons available for use, and had the makefile modified to support atmel32u4 chips, intended for the itsybitsy32u4 5v.
+
+
+##ARCHIVED
 
 Automatically throws snowballs in The Legend of Zelda: Breath of the Wild by emulating a controller on a Teensy++ v2.0
 
