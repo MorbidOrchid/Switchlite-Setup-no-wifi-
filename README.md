@@ -2,7 +2,7 @@
 
 Im keeping the text below as a reference point only. This has been modified from the snowball-thrower it once was. 
 
-This has been modified to allow programmable switch inputs, expanded the buttons available for use, and had the makefile modified to support atmel32u4 chips, intended for the itsybitsy32u4 5v.
+This has been modified to allow programmable switch inputs, expanded the buttons available for use, and had the makefile modified to support atmel32u4 chips, intended for the itsybitsy32u4 5v. The joystick.c file has been modified with intent to quickly and autonomously set up a new switch lite that has had the wifi chip disabled, that is connected via ethernet, and update the console.
 
 
 ## ARCHIVED
